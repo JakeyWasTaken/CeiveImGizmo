@@ -681,7 +681,7 @@ end
 
 function Gizmo.SetEnabled(value)
 	Gizmo.Enabled = value
-
+	
 	if value == false then
 		Gizmo.Clear()
 	end

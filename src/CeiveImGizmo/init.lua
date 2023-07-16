@@ -147,6 +147,8 @@ type ICeive = {
 	
 	PushProperty: (Property: string, Value: any?) -> nil,
 	PopProperty: (Property: string) -> any?,
+	AddDebrisInSeconds: (Seconds: number, Callback: () -> ()) -> (),
+	AddDebrisInFrames: (Frames: number, Callback: () -> ()) -> (),
 	SetEnabled: (Value: boolean) -> (),
 	DoCleaning: () -> nil,
 	ScheduleCleaning: () -> nil,

@@ -1,5 +1,7 @@
 local Terrain = workspace.Terrain
 
+--- @class VolumeCylinder
+--- Renders a CylinderHandleAdornment.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -16,7 +18,14 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain, Register)
 	return self
 end
 
-function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, InnerRadius: number, Angle: number?)
+--- @within VolumeCylinder
+--- @function Draw
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
+--- @param InnerRadius number?
+--- @param Angle number?
+function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?)
 	local Ceive = self.Ceive
 
 	if not Ceive.Enabled then
@@ -42,7 +51,15 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, InnerRadi
 	self.Register(Cylinder)
 end
 
-function Gizmo:Create(Transform: CFrame, Radius: number, Length: number, InnerRadius: number, Angle: number?)
+--- @within VolumeCylinder
+--- @function Create
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
+--- @param InnerRadius number?
+--- @param Angle number?
+--- @return {Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+function Gizmo:Create(Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?)
 	local PropertyTable = {
 		Transform = Transform,
 		Radius = Radius,

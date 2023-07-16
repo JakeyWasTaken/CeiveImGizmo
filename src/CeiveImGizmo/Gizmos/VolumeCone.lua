@@ -1,5 +1,7 @@
 local Terrain = workspace.Terrain
 
+--- @class VolumeCone
+--- Renders a ConeHandleAdornment.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -16,6 +18,11 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain, Register)
 	return self
 end
 
+--- @within VolumeCone
+--- @function Draw
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
 function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number)
 	local Ceive = self.Ceive
 
@@ -40,6 +47,12 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number)
 	self.Register(Cone)
 end
 
+--- @within VolumeCone
+--- @function Create
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
+--- @return {Transform: CFrame, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 function Gizmo:Create(Transform: CFrame, Radius: number, Length: number)
 	local PropertyTable = {
 		Transform = Transform,

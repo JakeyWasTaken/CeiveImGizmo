@@ -1,5 +1,5 @@
-local Terrain = workspace.Terrain
-
+--- @class VolumeArrow
+--- Renders an arrow with a ConeHandleAdornment instead of a wireframe cone.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -16,6 +16,12 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain, Register)
 	return self
 end
 
+--- @within VolumeArrow
+--- @function Draw
+--- @param Origin Vector3
+--- @param End Vector3
+--- @param Radius number
+--- @param Length number
 function Gizmo:Draw(Origin: Vector3, End: Vector3, Radius: number, Length: number)
 	local Ceive = self.Ceive
 
@@ -29,6 +35,13 @@ function Gizmo:Draw(Origin: Vector3, End: Vector3, Radius: number, Length: numbe
 	Ceive.VolumeCone:Draw(ArrowCFrame, Radius, Length)
 end
 
+--- @within VolumeArrow
+--- @function Create
+--- @param Origin Vector3
+--- @param End Vector3
+--- @param Radius number
+--- @param Length number
+--- @return {Origin: Vector3, End: Vector3, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 function Gizmo:Create(Origin: Vector3, End: Vector3, Radius: number, Length: number)
 	local PropertyTable = {
 		Origin = Origin,

@@ -1,5 +1,7 @@
 local Rad90D = math.rad(90)
 
+--- @class Capsule
+--- Renders a wireframe capsule.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -15,6 +17,12 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain)
 	return self
 end
 
+--- @within Capsule
+--- @function Draw
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
+--- @param Subdivisions number
 function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, Subdivisions: number)
 	local Ceive = self.Ceive
 
@@ -73,6 +81,13 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, Subdivisi
 	Ceive.Ray:Draw(LastBottom, FirstBottom)
 end
 
+--- @within Capsule
+--- @function Create
+--- @param Transform CFrame
+--- @param Radius number
+--- @param Length number
+--- @param Subdivisions number
+--- @return {Transform: CFrame, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 function Gizmo:Create(Transform: CFrame, Radius: number, Length: number, Subdivisions: number)
 	local PropertyTable = {
 		Transform = Transform,

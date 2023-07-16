@@ -1,3 +1,5 @@
+--- @class Ray
+--- Renders a line.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -13,6 +15,10 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain)
 	return self
 end
 
+--- @within Ray
+--- @function Draw
+--- @param Origin Vector3
+--- @param End Vector3
 function Gizmo:Draw(Origin: Vector3, End: Vector3)
 	local Ceive = self.Ceive
 	
@@ -31,6 +37,11 @@ function Gizmo:Draw(Origin: Vector3, End: Vector3)
 	self.Ceive.ScheduleCleaning()
 end
 
+--- @within Ray
+--- @function Create
+--- @param Origin Vector3
+--- @param End Vector3
+--- @return {Origin: Vector3, End: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
 function Gizmo:Create(Origin: Vector3, End: Vector3)
 	local PropertyTable = {
 		Origin = Origin,

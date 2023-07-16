@@ -256,10 +256,18 @@ function Ceive.ScheduleCleaning()
 	end)
 end
 
+--- @within CEIVE
+--- @function AddDebrisInSeconds
+--- @param Seconds number - Number of seconds the callback will persist for
+--- @param Callback function - Callback function
 function Ceive.AddDebrisInSeconds(Seconds: number, Callback)
 	table.insert(Debris, {"Seconds", Seconds, os.clock(), Callback})
 end
 
+--- @within CEIVE
+--- @function AddDebrisInFrames
+--- @param Frames number - Number of frames the callback will persist for
+--- @param Callback function - Callback function
 function Ceive.AddDebrisInFrames(Frames: number, Callback)
 	table.insert(Debris, {"Frames", Frames, 0, Callback})
 end

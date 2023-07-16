@@ -51,6 +51,6 @@ This means setup is so easy you can have gizmos visualising look directions, nav
 
 # Performance
 
-Cieve uses a WireframeHandleAdornment, (I believe this is used by roblox internally when you turn on wireframe view) This means it is incredibly fast, being able to show 100k lines at 20fps you never have to worry about performance. All of the lines are under 2 Adornments, one thats  AlwaysOnTop and one that isn't. You can be rest assured that there will be negligable performance impact when your gizmos are enabled.<br><br>
+Cieve uses a WireframeHandleAdornment, (I believe this is used by roblox internally when you turn on wireframe view) This means it is incredibly fast, being able to show 100k lines at 20fps you never have to worry about performance. All of the lines are rendered using 2 Adornments, one thats AlwaysOnTop and one that isn't. You can be rest assured that there will be negligable performance impact when your gizmos are enabled.<br><br>
 
 If you'd wish to enable / disable all gizmos then you can call `Gizmo.SetEnabled(value: boolean)` this will disable all rendering and clear any Rays / Adornments.

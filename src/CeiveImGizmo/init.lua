@@ -183,6 +183,7 @@ local Ceive: ICeive = {
 
 --- @within CEIVE
 --- @function GetPoolSize
+--- @return number
 function Ceive.GetPoolSize()
 	local n = 0
 
@@ -209,6 +210,7 @@ end
 --- @within CEIVE
 --- @function PopProperty
 --- @param Property string
+--- @return any
 function Ceive.PopProperty(Property)
 	if PropertyTable[Property] then
 		return PropertyTable[Property]

@@ -26,6 +26,7 @@ local Gizmos = script:WaitForChild("Gizmos")
 
 local ActiveObjects = {}
 local RetainObjects = {}
+local Debris = {}
 local PropertyTable = {AlwaysOnTop = true}
 local Pool = {}
 
@@ -201,6 +202,10 @@ end
 function Ceive.PushProperty(Property, Value)
 	PropertyTable[Property] = Value
 	
+	if Property == "AlwaysOnTop" then
+		return
+	end
+
 	pcall(function()
 		AOTWireframeHandle[Property] = Value
 		WireframeHandle[Property] = Value
@@ -251,10 +256,45 @@ function Ceive.ScheduleCleaning()
 	end)
 end
 
+function Ceive.AddDebrisInSeconds(Seconds: number, Callback)
+	table.insert(Debris, {"Seconds", Seconds, os.clock(), Callback})
+end
+
+function Ceive.AddDebrisInFrames(Frames: number, Callback)
+	table.insert(Debris, {"Frames", Frames, 0, Callback})
+end
+
 --- @within CEIVE
 --- @function Init
 function Ceive.Init()
 	RunService.RenderStepped:Connect(function()
+		for i, DebrisObject in Debris do
+			local DebrisType = DebrisObject[1]
+			local DebrisLifetime = DebrisObject[2]
+			local DebrisBirth = DebrisObject[3]
+			local DebrisCallback = DebrisObject[4]
+
+			if DebrisType == "Seconds" then
+				if os.clock() - DebrisBirth > DebrisLifetime then
+					table.remove(Debris, i)
+					continue
+				end
+				
+				DebrisCallback()
+
+				continue
+			end
+
+			if DebrisBirth > DebrisLifetime then
+				table.remove(Debris, i)
+				continue
+			end
+
+			DebrisObject[2] += 1 -- Add 1 frame to the counter
+
+			DebrisCallback()
+		end
+
 		for i, Gizmo in RetainObjects do
 			local PropertyTable = Gizmo[2]
 			

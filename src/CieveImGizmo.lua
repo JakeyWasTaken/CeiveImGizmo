@@ -22,7 +22,6 @@ if not WireframeHandle then
 end
 
 local RenderOnTop = true
-local Enabled = true
 
 local SetupCleaner = false
 
@@ -83,6 +82,7 @@ local Rad180D = math.rad(180)
 
 local ActiveObjects = {}
 local Gizmo = {
+	Enabled = true,
 	ActiveRays = 0,
 	ActiveInstances = 0,
 }
@@ -142,7 +142,7 @@ function Gizmo.Clear()
 end
 
 function Gizmo.DrawRay(Origin: Vector3, End: Vector3)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -158,7 +158,7 @@ function Gizmo.DrawRay(Origin: Vector3, End: Vector3)
 end
 
 function Gizmo.DrawBox(Location: CFrame, Size: Vector3, DrawTriangles: boolean?)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 	-- Verticies
@@ -232,7 +232,7 @@ function Gizmo.DrawBox(Location: CFrame, Size: Vector3, DrawTriangles: boolean?)
 end
 
 function Gizmo.DrawWedge(Location: CFrame, Size: Vector3, DrawTriangles: boolean?)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -308,7 +308,7 @@ function Gizmo.DrawCircle(
 	Angle: number,
 	ConnectToFirst: boolean?
 )
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -340,7 +340,7 @@ function Gizmo.DrawCircle(
 end
 
 function Gizmo.DrawSphere(Location: CFrame, Radius: number, Subdivisions: number, Angle: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -350,7 +350,7 @@ function Gizmo.DrawSphere(Location: CFrame, Radius: number, Subdivisions: number
 end
 
 function Gizmo.DrawCylinder(Location: CFrame, Radius: number, Length: number, Subdivisions: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -403,7 +403,7 @@ function Gizmo.DrawCylinder(Location: CFrame, Radius: number, Length: number, Su
 end
 
 function Gizmo.DrawCapsule(Location: CFrame, Radius: number, Length: number, Subdivisions: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -459,7 +459,7 @@ function Gizmo.DrawCapsule(Location: CFrame, Radius: number, Length: number, Sub
 end
 
 function Gizmo.DrawCone(Location: CFrame, Radius: number, Length: number, Subdivisions: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -502,7 +502,7 @@ function Gizmo.DrawCone(Location: CFrame, Radius: number, Length: number, Subdiv
 end
 
 function Gizmo.DrawArrow(Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -518,7 +518,7 @@ function Gizmo.DrawObj(
 	Vertices: { [number]: { x: number, y: number, z: number } },
 	Faces: { [number]: { [number]: { [number]: { v: number } } } }
 )
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -575,7 +575,7 @@ function Gizmo.DrawObj(
 end
 
 function Gizmo.DrawVolumeCone(Location: CFrame, Radius: number, Length: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -597,7 +597,7 @@ function Gizmo.DrawVolumeCone(Location: CFrame, Radius: number, Length: number)
 end
 
 function Gizmo.DrawVolumeBox(Location: CFrame, Size: Vector3)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -618,7 +618,7 @@ function Gizmo.DrawVolumeBox(Location: CFrame, Size: Vector3)
 end
 
 function Gizmo.DrawVolumeSphere(Location: CFrame, Radius: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -645,7 +645,7 @@ function Gizmo.DrawVolumeCylinder(
 	InnerRadius: number?,
 	Angle: number?
 )
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -669,7 +669,7 @@ function Gizmo.DrawVolumeCylinder(
 end
 
 function Gizmo.DrawVolumeArrow(Origin: Vector3, End: Vector3, Radius: number, Length: number)
-	if not Enabled then
+	if not Gizmo.Enabled then
 		return
 	end
 
@@ -679,10 +679,10 @@ function Gizmo.DrawVolumeArrow(Origin: Vector3, End: Vector3, Radius: number, Le
 	Gizmo.DrawVolumeCone(ArrowCFrame, Radius, Length)
 end
 
-function Gizmo.SetEnabled(Value)
-	Enabled = Value
+function Gizmo.SetEnabled(value)
+	Gizmo.Enabled = value
 
-	if Value == false then
+	if value == false then
 		Gizmo.Clear()
 	end
 end

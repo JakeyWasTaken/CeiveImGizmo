@@ -13,24 +13,30 @@ And the rbxm + rbxl files can be found in the releases.
 # Shapes
 
 Boxes with or without triangles<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/9818ce7c-dce4-4910-bf35-2031261aa737)<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/59d70ab7-db98-4bdd-8574-cbe78c9115bf)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/c48baf47-3c73-45df-9a63-eb6ce0128073)<br>
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/a0f0aaa7-a555-426e-a3ce-8e9e57f73dd9)
+
 
 Wedges with or without triangles<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/429481cb-5712-4138-8002-d8fbc6d36b81)<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/827e6be3-8c12-4a44-9b2f-059d568caf66)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/fb185cf2-e1c1-4a5e-a941-da81ab9b3510)<br>
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/eafc796e-d069-4680-ae93-50b41461edfb)
+
 
 Spheres<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/93048358-7d32-4517-8010-a2de86913a3a)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/039562e2-06e3-462b-bb8d-291903212683)
+
 
 Cylinders<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/962a4107-db2a-4f28-abd8-0e17d00b8f20)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/bd941fe6-ef66-4ed8-b929-d950bc1d77d3)
+
 
 Capsules<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/c84cc956-208e-4b05-998e-f21b63019f00)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/f0787cb5-17e6-4d47-8ed7-ca829d7fddb0)
+
 
 Custom Import OBJ Meshes<br>
-![image](https://github.com/JakeyWasTaken/Ceive-ImGizmo/assets/75340712/1a082b8f-667b-4c66-9609-38af3de48271)
+![image](https://github.com/JakeyWasTaken/CeiveImGizmo/assets/75340712/1d5b0445-6d91-48c0-a749-e889ae755057)
+
 
 # Usage
 

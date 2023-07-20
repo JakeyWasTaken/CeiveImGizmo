@@ -169,6 +169,7 @@ type ICeive = {
 	SetEnabled: (Value: boolean) -> (),
 	DoCleaning: () -> nil,
 	ScheduleCleaning: () -> nil,
+	TweenProperies: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),
 	
 	Ray: IRay,
 	Box: IBox,

@@ -1,3 +1,4 @@
+local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 local Terrain = workspace.Terrain
 
@@ -27,13 +28,14 @@ local Gizmos = script:WaitForChild("Gizmos")
 local ActiveObjects = {}
 local RetainObjects = {}
 local Debris = {}
+local Tweens = {}
 local PropertyTable = {AlwaysOnTop = true}
 local Pool = {}
 
 local CleanerScheduled = false
 
-local function Retain(Gizmo, PropertyTable)
-	table.insert(RetainObjects, {Gizmo, PropertyTable})
+local function Retain(Gizmo, GizmoProperties)
+	table.insert(RetainObjects, {Gizmo, GizmoProperties})
 end
 
 local function Register(object)
@@ -62,6 +64,21 @@ local function Request(ClassName)
 	table.remove(Pool[ClassName], 1)
 
 	return Object
+end
+
+local function Lerp(a, b, t)
+	return a + (b - a) * t
+end
+
+local function deepCopy(original)
+	local copy = {}
+	for k, v in pairs(original) do
+		if type(v) == "table" then
+			v = deepCopy(v)
+		end
+		copy[k] = v
+	end
+	return copy
 end
 
 -- Types
@@ -187,7 +204,7 @@ local Ceive: ICeive = {
 --- @within CEIVE
 --- @function GetPoolSize
 --- @return number
-function Ceive.GetPoolSize()
+function Ceive.GetPoolSize(): number
 	local n = 0
 
 	for _, t in Pool do
@@ -199,6 +216,7 @@ end
 
 --- @within CEIVE
 --- @function PushProperty
+--- Push Property sets the value of a property.
 --- @param Property string
 --- @param Value any
 function Ceive.PushProperty(Property, Value)
@@ -216,9 +234,10 @@ end
 
 --- @within CEIVE
 --- @function PopProperty
+--- Pop Property returns the property value.
 --- @param Property string
 --- @return any
-function Ceive.PopProperty(Property)
+function Ceive.PopProperty(Property): any
 	if PropertyTable[Property] then
 		return PropertyTable[Property]
 	end
@@ -260,24 +279,85 @@ end
 
 --- @within CEIVE
 --- @function AddDebrisInSeconds
---- @param Seconds number - Number of seconds the callback will persist for
---- @param Callback function - Callback function
+--- Acts as a wrapper for your code that runs for a provided amount of seconds.
+--- @param Seconds number
+--- @param Callback function
 function Ceive.AddDebrisInSeconds(Seconds: number, Callback)
 	table.insert(Debris, {"Seconds", Seconds, os.clock(), Callback})
 end
 
 --- @within CEIVE
 --- @function AddDebrisInFrames
---- @param Frames number - Number of frames the callback will persist for
---- @param Callback function - Callback function
+--- Acts as a wrapper for your code that runs for a provided amount of frames.
+--- @param Frames number
+--- @param Callback function
 function Ceive.AddDebrisInFrames(Frames: number, Callback)
 	table.insert(Debris, {"Frames", Frames, 0, Callback})
 end
 
 --- @within CEIVE
+--- @function TweenProperties
+--- Tweens the property table to the goal with the provided TweenInfo, returns a function which can be used to cancel.
+--- @param Properties table
+--- @param Goal table
+--- @param TweenInfo TweenInfo
+--- @return function
+function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): () -> ()
+	local p_Properties = Properties
+	local c_Properties = deepCopy(Properties)
+
+	table.insert(Tweens, {
+		p_Properties = p_Properties,
+		Properties = c_Properties,
+		Goal = Goal,
+		TweenInfo = TweenInfo,
+		Time = 0
+	})
+
+	local TweenIndex = #Tweens
+
+	return function()
+		table.remove(Tweens, TweenIndex)
+	end
+end
+
+--- @within CEIVE
 --- @function Init
 function Ceive.Init()
-	RunService.RenderStepped:Connect(function()
+	RunService.RenderStepped:Connect(function(dt)
+		for i, Tween in Tweens do
+			Tween.Time += dt
+			local Alpha = Tween.Time / Tween.TweenInfo.Time
+
+			if Alpha > 1 then
+				Alpha = 1
+			end
+			
+			local function LerpProperty(Start, End, Time)
+				if type(Start) == "number" then
+					return Lerp(Start, End, Time)
+				end
+
+				return Start:Lerp(End, Time)
+			end
+
+			for k, v in Tween.Properties do
+				if not Tween.Goal[k] then
+					continue
+				end
+				
+				local TweenAlpha = TweenService:GetValue(Alpha, Tween.TweenInfo.EasingStyle, Tween.TweenInfo.EasingDirection)
+				local PropertyValue = LerpProperty(v, Tween.Goal[k], TweenAlpha)
+
+				Tween.p_Properties[k] = PropertyValue
+			end
+
+			if Alpha == 1 then
+				print(Tween)
+				table.remove(Tweens, i)
+			end
+		end
+
 		for i, DebrisObject in Debris do
 			local DebrisType = DebrisObject[1]
 			local DebrisLifetime = DebrisObject[2]
@@ -306,17 +386,17 @@ function Ceive.Init()
 		end
 
 		for i, Gizmo in RetainObjects do
-			local PropertyTable = Gizmo[2]
+			local GizmoPropertys = Gizmo[2]
 			
-			if not PropertyTable.Enabled then
+			if not GizmoPropertys.Enabled then
 				continue
 			end
 			
-			if PropertyTable.Destroy then
+			if GizmoPropertys.Destroy then
 				table.remove(RetainObjects, i)
 			end
 			
-			Gizmo[1]:Update(PropertyTable)
+			Gizmo[1]:Update(GizmoPropertys)
 		end
 	end)
 end

@@ -99,8 +99,8 @@ type IWedge = {
 }
 
 type ICircle = {
-	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToFirst: boolean?) -> nil,
-	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToFirst: boolean?) -> {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToFirst: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean) -> nil,
+	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean) -> {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ISphere = {
@@ -133,6 +133,11 @@ type IMesh = {
 	Create: (self, Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}) -> {Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
+type ILine = {
+	Draw: (self, Transform: CFrame, Length: number) -> nil,
+	Create: (self, Transform: CFrame, Length: number) -> {Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+}
+
 type IVolumeCone = {
 	Draw: (self, Transform: CFrame, Radius: number, Length: number) -> nil,
 	Create: (self, Transform: CFrame, Radius: number, Length: number) -> {Transform: CFrame, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
@@ -154,8 +159,8 @@ type IVolumeCylinder = {
 }
 
 type IVolumeArrow = {
-	Draw: (self, Origin: Vector3, End: Vector3, Radius: number, Length: number) -> nil,
-	Create: (self, Origin: Vector3, End: Vector3, Radius: number, Length: number) -> {Origin: Vector3, End: Vector3, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+	Draw: (self, Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?) -> nil,
+	Create: (self, Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?) -> {Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICeive = {
@@ -172,6 +177,7 @@ type ICeive = {
 	TweenProperies: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),
 	
 	Ray: IRay,
+	Line: ILine,
 	Box: IBox,
 	Wedge: IWedge,
 	Circle: ICircle,
@@ -204,7 +210,7 @@ local Ceive: ICeive = {
 
 --- @within CEIVE
 --- @function GetPoolSize
---- @return number
+--- @return PoolSize number
 function Ceive.GetPoolSize(): number
 	local n = 0
 
@@ -302,7 +308,7 @@ end
 --- @param Properties table
 --- @param Goal table
 --- @param TweenInfo TweenInfo
---- @return function
+--- @return Cancel function
 function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): () -> ()
 	local p_Properties = Properties
 	local c_Properties = deepCopy(Properties)
@@ -354,7 +360,6 @@ function Ceive.Init()
 			end
 
 			if Alpha == 1 then
-				print(Tween)
 				table.remove(Tweens, i)
 			end
 		end

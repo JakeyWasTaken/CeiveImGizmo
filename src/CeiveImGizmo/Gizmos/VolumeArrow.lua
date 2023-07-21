@@ -20,34 +20,47 @@ end
 --- @function Draw
 --- @param Origin Vector3
 --- @param End Vector3
---- @param Radius number
+--- @param CylinderRadius number
+--- @param ConeRadius number
 --- @param Length number
-function Gizmo:Draw(Origin: Vector3, End: Vector3, Radius: number, Length: number)
+--- @param UseCylinder boolean?
+function Gizmo:Draw(Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?)
 	local Ceive = self.Ceive
 
 	if not Ceive.Enabled then
 		return
 	end
 
-	Ceive.Ray:Draw(Origin, End)
+	if UseCylinder == true then
+		local Direction = (End - Origin).Unit
+		local CylinderCFrame = CFrame.lookAt( ((Origin + End) / 2) + (-Direction * (Length / 2)), End )
+
+		Ceive.VolumeCylinder:Draw(CylinderCFrame, CylinderRadius, (Origin - End).Magnitude)
+	else
+		Ceive.Ray:Draw(Origin, End)
+	end
 
 	local ArrowCFrame = CFrame.lookAt(End - (End - Origin).Unit * (Length / 2), End)
-	Ceive.VolumeCone:Draw(ArrowCFrame, Radius, Length)
+	Ceive.VolumeCone:Draw(ArrowCFrame, ConeRadius, Length)
 end
 
 --- @within VolumeArrow
 --- @function Create
 --- @param Origin Vector3
 --- @param End Vector3
---- @param Radius number
+--- @param CylinderRadius number
+--- @param ConeRadius number
 --- @param Length number
---- @return {Origin: Vector3, End: Vector3, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
-function Gizmo:Create(Origin: Vector3, End: Vector3, Radius: number, Length: number)
+--- @param UseCylinder boolean?
+--- @return {Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number,  UseCylinder: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+function Gizmo:Create(Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?)
 	local PropertyTable = {
 		Origin = Origin,
 		End = End,
-		Radius = Radius,
+		CylinderRadius = CylinderRadius,
+		ConeRadius = ConeRadius,
 		Length = Length,
+		UseCylinder = UseCylinder,
 		AlwaysOnTop = self.Propertys.AlwaysOnTop,
 		Transparency = self.Propertys.Transparency,
 		Color3 = self.Propertys.Color3,
@@ -67,7 +80,7 @@ function Gizmo:Update(PropertyTable)
 	Ceive.PushProperty("Transparency", PropertyTable.Transparency)
 	Ceive.PushProperty("Color3", PropertyTable.Color3)
 
-	self:Draw(PropertyTable.Origin, PropertyTable.End, PropertyTable.Radius, PropertyTable.Length)
+	self:Draw(PropertyTable.Origin, PropertyTable.End, PropertyTable.Radius, PropertyTable.Length, PropertyTable.UseCylinder)
 end
 
 return Gizmo

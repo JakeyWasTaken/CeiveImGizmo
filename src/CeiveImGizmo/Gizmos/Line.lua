@@ -1,5 +1,5 @@
---- @class Ray
---- Renders a line between two points.
+--- @class Line
+--- Renders a line at a given CFrame.
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -15,37 +15,33 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain)
 	return self
 end
 
---- @within Ray
+--- @within Line
 --- @function Draw
---- @param Origin Vector3
---- @param End Vector3
-function Gizmo:Draw(Origin: Vector3, End: Vector3)
+--- @param Transform CFrame
+--- @param Length number
+--- @return {Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
+function Gizmo:Draw(Transform: CFrame, Length: number)
 	local Ceive = self.Ceive
 	
 	if not Ceive.Enabled then
 		return
 	end
 	
-	if self.Propertys.AlwaysOnTop then
-		Ceive.AOTWireframeHandle:AddLine(Origin, End)
-	else
-		Ceive.WireframeHandle:AddLine(Origin, End)
-	end
-	
-	self.Ceive.ActiveRays += 1
-	
-	self.Ceive.ScheduleCleaning()
+	local Origin = Transform.Position + (Transform.LookVector * (-Length / 2))
+    local End = Transform.Position + (Transform.LookVector * (Length / 2))
+
+    Ceive.Ray:Draw(Origin, End)
 end
 
---- @within Ray
+--- @within Line
 --- @function Create
---- @param Origin Vector3
---- @param End Vector3
---- @return {Origin: Vector3, End: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
-function Gizmo:Create(Origin: Vector3, End: Vector3)
+--- @param Transform CFrame
+--- @param Length number
+--- @return {Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
+function Gizmo:Create(Transform: CFrame, Length: number)
 	local PropertyTable = {
-		Origin = Origin,
-		End = End,
+		Transform = Transform,
+		Length = Length,
 		AlwaysOnTop = self.Propertys.AlwaysOnTop,
 		Transparency = self.Propertys.Transparency,
 		Color3 = self.Propertys.Color3,
@@ -65,7 +61,7 @@ function Gizmo:Update(PropertyTable)
 	Ceive.PushProperty("Transparency", PropertyTable.Transparency)
 	Ceive.PushProperty("Color3", PropertyTable.Color3)
 	
-	self:Draw(PropertyTable.Origin, PropertyTable.End)
+	self:Draw(PropertyTable.Transform, PropertyTable.Length)
 end
 
 return Gizmo

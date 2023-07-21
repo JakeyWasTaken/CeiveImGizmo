@@ -21,8 +21,8 @@ end
 --- @param Radius number
 --- @param Subdivisions number
 --- @param Angle number
---- @param ConnectToFirst boolean?
-function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToFirst: boolean?)
+--- @param ConnectToStart boolean?
+function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?)
 	local Ceive = self.Ceive
 
 	if not Ceive.Enabled then
@@ -31,8 +31,10 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Ang
 
 	local AnglePerChunk = math.floor(Angle / Subdivisions)
 
-	local FirstVertex = nil
 	local PreviousVertex = nil
+	local FirstVertex = nil
+
+	local FinishingAngle = 0
 
 	for i = 0, Angle, AnglePerChunk do
 		local XMagnitude = math.sin(math.rad(i)) * Radius
@@ -41,18 +43,31 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Ang
 		local VertexPosition = Transform.Position + ((Transform.UpVector * YMagnitude) + (Transform.RightVector * XMagnitude))
 
 		if PreviousVertex == nil then
-			FirstVertex = VertexPosition
 			PreviousVertex = VertexPosition
+			FirstVertex = VertexPosition
+			FinishingAngle = i
 			continue
 		end
 
 		Ceive.Ray:Draw(PreviousVertex, VertexPosition)
 		PreviousVertex = VertexPosition
+		FinishingAngle = i
 	end
 
-	if ConnectToFirst ~= false then
+	if FinishingAngle ~= Angle then
+		local XMagnitude = math.sin(math.rad(Angle)) * Radius
+		local YMagnitude = math.cos(math.rad(Angle)) * Radius
+
+		local VertexPosition = Transform.Position + ((Transform.UpVector * YMagnitude) + (Transform.RightVector * XMagnitude))
+
+		Ceive.Ray:Draw(PreviousVertex, VertexPosition)
+	end
+
+	if ConnectToStart ~= false then
 		Ceive.Ray:Draw(PreviousVertex, FirstVertex)
 	end
+
+	return PreviousVertex
 end
 
 --- @within Circle
@@ -61,15 +76,15 @@ end
 --- @param Radius number
 --- @param Subdivisions number
 --- @param Angle number
---- @param ConnectToFirst boolean?
---- @return {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToFirst: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
-function Gizmo:Create(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToFirst: boolean?)
+--- @param ConnectToStart boolean?
+--- @return {Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+function Gizmo:Create(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?)
 	local PropertyTable = {
 		Transform = Transform,
 		Radius = Radius,
 		Subdivisions = Subdivisions,
 		Angle = Angle,
-		ConnectToFirst = ConnectToFirst or false,
+		ConnectToStart = ConnectToStart,
 		AlwaysOnTop = self.Propertys.AlwaysOnTop,
 		Transparency = self.Propertys.Transparency,
 		Color3 = self.Propertys.Color3,
@@ -89,7 +104,7 @@ function Gizmo:Update(PropertyTable)
 	Ceive.PushProperty("Transparency", PropertyTable.Transparency)
 	Ceive.PushProperty("Color3", PropertyTable.Color3)
 
-	self:Draw(PropertyTable.Transform, PropertyTable.Radius, PropertyTable.Subdivisions, PropertyTable.Angle, PropertyTable.ConnectToFirst)
+	self:Draw(PropertyTable.Transform, PropertyTable.Radius, PropertyTable.Subdivisions, PropertyTable.Angle, PropertyTable.ConnectToStart)
 end
 
 return Gizmo

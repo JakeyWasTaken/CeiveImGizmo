@@ -21,8 +21,8 @@ end
 --- @param Radius number
 --- @param Subdivisions number
 --- @param Angle number
---- @param ConnectToStart boolean
-function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean)
+--- @param ConnectToStart boolean?
+function Gizmo:Draw(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?)
 	local Ceive = self.Ceive
 
 	if not Ceive.Enabled then
@@ -76,9 +76,9 @@ end
 --- @param Radius number
 --- @param Subdivisions number
 --- @param Angle number
---- @param ConnectToStart boolean
---- @return {Transform: CFrame, Radius: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
-function Gizmo:Create(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean)
+--- @param ConnectToStart boolean?
+--- @return {Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+function Gizmo:Create(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?)
 	local PropertyTable = {
 		Transform = Transform,
 		Radius = Radius,

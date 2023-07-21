@@ -99,8 +99,8 @@ type IWedge = {
 }
 
 type ICircle = {
-	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean) -> nil,
-	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean) -> {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> nil,
+	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ISphere = {

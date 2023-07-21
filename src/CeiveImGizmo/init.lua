@@ -354,7 +354,6 @@ function Ceive.Init()
 			end
 
 			if Alpha == 1 then
-				print(Tween)
 				table.remove(Tweens, i)
 			end
 		end

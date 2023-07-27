@@ -84,98 +84,108 @@ end
 -- Types
 
 type IRay = {
-	Draw: (self, Origin: Vector3, End: Vector3) -> nil,
+	Draw: (self, Origin: Vector3, End: Vector3) -> (),
 	Create: (self, Origin: Vector3, End: Vector3) -> {Origin: Vector3, End: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
 }
 
 type IBox = {
-	Draw: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> nil,
+	Draw: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> (),
 	Create: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> {Transform: CFrame, Size: Vector3, DrawTriangles: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IWedge = {
-	Draw: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> nil,
+	Draw: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> (),
 	Create: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> {Transform: CFrame, Size: Vector3, DrawTriangles: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICircle = {
-	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> {Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ISphere = {
-	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number) -> {Transform: CFrame, Radius: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICylinder = {
-	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> {Transform: CFrame, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICapsule = {
-	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> {Transform: CFrame, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICone = {
-	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Length: number, Subdivisions: number) -> {Transform: CFrame, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IArrow = {
-	Draw: (self, Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number) -> nil,
+	Draw: (self, Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number) -> (),
 	Create: (self, Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number) -> {Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IMesh = {
-	Draw: (self, Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}) -> nil,
+	Draw: (self, Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}) -> (),
 	Create: (self, Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}) -> {Transform: CFrame, Size: Vector3, Vertices: {}, Faces: {}, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ILine = {
-	Draw: (self, Transform: CFrame, Length: number) -> nil,
+	Draw: (self, Transform: CFrame, Length: number) -> (),
 	Create: (self, Transform: CFrame, Length: number) -> {Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IVolumeCone = {
-	Draw: (self, Transform: CFrame, Radius: number, Length: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Length: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Length: number) -> {Transform: CFrame, Radius: number, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IVolumeBox = {
-	Draw: (self, Transform: CFrame, Size: Vector3) -> nil,
+	Draw: (self, Transform: CFrame, Size: Vector3) -> (),
 	Create: (self, Transform: CFrame, Size: Vector3) -> {Transform: CFrame, Size: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IVolumeSphere = {
-	Draw: (self, Transform: CFrame, Radius: number) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number) -> (),
 	Create: (self, Transform: CFrame, Radius: number) -> {Transform: CFrame, Radius: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IVolumeCylinder = {
-	Draw: (self, Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?) -> nil,
+	Draw: (self, Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?) -> (),
 	Create: (self, Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?) -> {Transform: CFrame, Radius: number, Length: number, InnerRadius: number?, Angle: number?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type IVolumeArrow = {
-	Draw: (self, Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?) -> nil,
+	Draw: (self, Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?) -> (),
 	Create: (self, Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?) -> {Origin: Vector3, End: Vector3, CylinderRadius: number, ConeRadius: number, Length: number, UseCylinder: boolean?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+}
+
+type IStyles = {
+	Color: string,
+	Transparency: number,
+	AlwaysOnTop: boolean,
 }
 
 type ICeive = {
 	ActiveRays: number,
 	ActiveInstances: number,
 	
-	PushProperty: (Property: string, Value: any?) -> nil,
+	PushProperty: (Property: string, Value: any?) -> (),
 	PopProperty: (Property: string) -> any?,
+	SetStyle: (Color: Color3?, Transparency: number?, AlwaysOnTop: boolean?) -> (),
 	AddDebrisInSeconds: (Seconds: number, Callback: () -> ()) -> (),
 	AddDebrisInFrames: (Frames: number, Callback: () -> ()) -> (),
 	SetEnabled: (Value: boolean) -> (),
-	DoCleaning: () -> nil,
-	ScheduleCleaning: () -> nil,
+	DoCleaning: () -> (),
+	ScheduleCleaning: () -> (),
 	TweenProperies: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),
+	Init: () -> (),
 	
+	Styles: IStyles,
+
 	Ray: IRay,
 	Line: ILine,
 	Box: IBox,
@@ -199,10 +209,18 @@ type ICeive = {
 --- @class CEIVE
 --- Root class for all the gizmos.
 
+local Styles = {
+	Color = "Color3",
+	Transparency = "Transparency",
+	AlwaysOnTop = "AlwaysOnTop",
+}
+
 local Ceive: ICeive = {
 	Enabled = true,
 	ActiveRays = 0,
 	ActiveInstances = 0,
+
+	Styles = Styles,
 	
 	AOTWireframeHandle = AOTWireframeHandle,
 	WireframeHandle = WireframeHandle,
@@ -250,6 +268,26 @@ function Ceive.PopProperty(Property): any
 	end
 	
 	return AOTWireframeHandle[Property]
+end
+
+--- @within CEIVE
+--- @function SetStyle
+--- Sets the style of all properties.
+--- @param Color Color3?
+--- @param Transparency number?
+--- @param AlwaysOnTop boolean?
+function Ceive.SetStyle(Color, Transparency, AlwaysOnTop)
+	if Color and typeof(Color) == "Color3" then
+		Ceive.PushProperty("Color3", Color)
+	end
+
+	if Transparency and typeof(Transparency) == "number" then
+		Ceive.PushProperty("Transparency", Transparency)
+	end
+
+	if AlwaysOnTop and typeof(AlwaysOnTop) == "boolean" then
+		Ceive.PushProperty("AlwaysOnTop", AlwaysOnTop)
+	end
 end
 
 --- @within CEIVE

@@ -41,7 +41,7 @@ end
 --- @param Radius number
 --- @param Subdivisions number
 --- @param Angle number
---- @return {Transform: CFrame, Radius: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+--- @return {Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 function Gizmo:Create(Transform: CFrame, Radius: number, Subdivisions: number, Angle: number)
 	local PropertyTable = {
 		Transform = Transform,

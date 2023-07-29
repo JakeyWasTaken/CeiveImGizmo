@@ -104,8 +104,8 @@ type ICircle = {
 }
 
 type ISphere = {
-	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number) -> (),
-	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number) -> {Transform: CFrame, Radius: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+	Draw: (self, Transform: CFrame, Radius: number, Subdivisions: number, Angle: number) -> (),
+	Create: (self, Transform: CFrame, Radius: number, Subdivisions: number, Angle: number) -> {Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
 type ICylinder = {

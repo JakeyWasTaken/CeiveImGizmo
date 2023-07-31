@@ -30,17 +30,20 @@ function Gizmo:Draw(Origin: Vector3, End: Vector3, CylinderRadius: number, ConeR
 	if not Ceive.Enabled then
 		return
 	end
+	
+	local ArrowCFrame = CFrame.lookAt(End - (End - Origin).Unit * (Length / 2), End)
 
 	if UseCylinder == true then
 		local Direction = (End - Origin).Unit
-		local CylinderCFrame = CFrame.lookAt( ((Origin + End) / 2) + (-Direction * (Length / 2)), End )
+		local BottomCone = ArrowCFrame.Position
+		local CylinderLength = (BottomCone - Origin).Magnitude
+		local CylinderCFrame = CFrame.lookAt( (Origin + BottomCone) / 2, End )
 
-		Ceive.VolumeCylinder:Draw(CylinderCFrame, CylinderRadius, (Origin - End).Magnitude)
+		Ceive.VolumeCylinder:Draw(CylinderCFrame, CylinderRadius, CylinderLength)
 	else
 		Ceive.Ray:Draw(Origin, End)
 	end
 
-	local ArrowCFrame = CFrame.lookAt(End - (End - Origin).Unit * (Length / 2), End)
 	Ceive.VolumeCone:Draw(ArrowCFrame, ConeRadius, Length)
 end
 

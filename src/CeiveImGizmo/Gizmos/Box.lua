@@ -32,9 +32,9 @@ function Gizmo:Draw(Transform: CFrame, Size: Vector3, DrawTriangles: boolean)
 	local Rv = Transform.RightVector
 	local Lv = Transform.LookVector
 	local sO2 = Size / 2
-	local sUv = Uv * sO2
-	local sRv = Rv * sO2
-	local sLv = Lv * sO2
+	local sUv = Uv * sO2.Y
+	local sRv = Rv * sO2.X
+	local sLv = Lv * sO2.Z
 
 	local function CalculateYFace(lUv, lRv, lLv)
 		local TopLeft = Position + (lUv - lRv + lLv)

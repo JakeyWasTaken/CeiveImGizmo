@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[264],{63891:e=>{e.exports=JSON.parse('{"sourceUrl":"https://github.com/JakeyWasTaken/CeiveImGizmo/blob/master","baseUrl":"/CeiveImGizmo/","classOrder":[],"apiCategories":[]}')}}]);

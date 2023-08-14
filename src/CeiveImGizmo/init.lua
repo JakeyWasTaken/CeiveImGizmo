@@ -93,6 +93,11 @@ type IBox = {
 	Create: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> {Transform: CFrame, Size: Vector3, DrawTriangles: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
 }
 
+type IPlane = {
+	Draw: (self, Position: Vector3, Normal: Vector3, Size: Vector3) -> (),
+	Create: (self, Position: Vector3, Normal: Vector3, Size: Vector3) -> {Position: Vector3, Normal: Vector3, Size: Vector3, DrawTriangles: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
+}
+
 type IWedge = {
 	Draw: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> (),
 	Create: (self, Transform: CFrame, Size: Vector3, DrawTriangles: boolean) -> {Transform: CFrame, Size: Vector3, DrawTriangles: boolean, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
@@ -189,6 +194,7 @@ type ICeive = {
 	Ray: IRay,
 	Line: ILine,
 	Box: IBox,
+	Plane: IPlane,
 	Wedge: IWedge,
 	Circle: ICircle,
 	Sphere: ISphere,

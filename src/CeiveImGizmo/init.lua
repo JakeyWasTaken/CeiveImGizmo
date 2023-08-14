@@ -291,7 +291,7 @@ function Ceive.SetStyle(Color, Transparency, AlwaysOnTop)
 		Ceive.PushProperty("Transparency", Transparency)
 	end
 
-	if AlwaysOnTop and typeof(AlwaysOnTop) == "boolean" then
+	if AlwaysOnTop ~= nil and typeof(AlwaysOnTop) == "boolean" then
 		Ceive.PushProperty("AlwaysOnTop", AlwaysOnTop)
 	end
 end

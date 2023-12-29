@@ -1,6 +1,6 @@
 {
     "name": "imgizmo",
     "tree": {
-        "$path": "src"
+        "$path": "src/CeiveImGizmo"
     }
 }

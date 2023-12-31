@@ -1,13 +1,6 @@
 {
-  "name": "Ceive-ImGizmo",
-  "tree": {
-    "$className": "DataModel",
-
-    "ReplicatedStorage": {
-      "Gizmo": {
+    "name": "imgizmo",
+    "tree": {
         "$path": "src/CeiveImGizmo"
-      }
     }
-
-  }
 }

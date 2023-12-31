@@ -1,5 +1,5 @@
 [package]
-name = "JakeyWasTaken/imgizmo"
+name = "jakeywastaken/imgizmo"
 version = "3.3.0"
 registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"

@@ -101,10 +101,9 @@ function Gizmo:Create(Transform: CFrame, Size: Vector3, Vertices, Faces)
 		Transparency = self.Propertys.Transparency,
 		Color3 = self.Propertys.Color3,
 		Enabled = true,
-		Destroy = false,
 	}
 
-	self.Retain(self, PropertyTable)
+	PropertyTable.Destroy = self.Retain(self, PropertyTable)
 
 	return PropertyTable
 end

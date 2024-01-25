@@ -39,8 +39,13 @@ local Pool = {}
 
 local CleanerScheduled = false
 
-local function Retain(Gizmo, GizmoProperties)
-	table.insert(RetainObjects, { Gizmo, GizmoProperties })
+local function Retain(Gizmo, GizmoProperties): () -> ()
+	local Retained = { Gizmo, GizmoProperties }
+	RetainObjects[Retained] = true
+
+	return function()
+		RetainObjects[Retained] = nil
+	end
 end
 
 local function Register(object)
@@ -112,7 +117,7 @@ type IBox = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -132,7 +137,7 @@ type IPlane = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -151,7 +156,7 @@ type IWedge = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -172,7 +177,7 @@ type ICircle = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -193,7 +198,7 @@ type ISphere = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -214,7 +219,7 @@ type ICylinder = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -235,7 +240,7 @@ type ICapsule = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -256,7 +261,7 @@ type ICone = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -279,7 +284,7 @@ type IArrow = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -300,7 +305,7 @@ type IMesh = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -310,7 +315,7 @@ type ILine = {
 		self: ILine,
 		Transform: CFrame,
 		Length: number
-	) -> { Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean },
+	) -> { Transform: CFrame, Length: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: () -> () },
 }
 
 type IVolumeCone = {
@@ -328,7 +333,7 @@ type IVolumeCone = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -338,7 +343,7 @@ type IVolumeBox = {
 		self: IVolumeBox,
 		Transform: CFrame,
 		Size: Vector3
-	) -> { Transform: CFrame, Size: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean },
+	) -> { Transform: CFrame, Size: Vector3, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: () -> () },
 }
 
 type IVolumeSphere = {
@@ -347,7 +352,7 @@ type IVolumeSphere = {
 		self: IVolumeSphere,
 		Transform: CFrame,
 		Radius: number
-	) -> { Transform: CFrame, Radius: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean },
+	) -> { Transform: CFrame, Radius: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: () -> () },
 }
 
 type IVolumeCylinder = {
@@ -369,7 +374,7 @@ type IVolumeCylinder = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -394,7 +399,7 @@ type IVolumeArrow = {
 		AlwaysOnTop: boolean,
 		Transparency: number,
 		Enabled: boolean,
-		Destroy: boolean,
+		Destroy: () -> (),
 	},
 }
 
@@ -620,15 +625,11 @@ function Ceive.Init()
 			DebrisCallback()
 		end
 
-		for i, Gizmo in RetainObjects do
+		for Gizmo in RetainObjects do
 			local GizmoPropertys = Gizmo[2]
 
 			if not GizmoPropertys.Enabled then
 				continue
-			end
-
-			if GizmoPropertys.Destroy then
-				table.remove(RetainObjects, i)
 			end
 
 			Gizmo[1]:Update(GizmoPropertys)

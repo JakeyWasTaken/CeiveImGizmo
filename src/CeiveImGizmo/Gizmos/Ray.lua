@@ -50,10 +50,9 @@ function Gizmo:Create(Origin: Vector3, End: Vector3)
 		Transparency = self.Propertys.Transparency,
 		Color3 = self.Propertys.Color3,
 		Enabled = true,
-		Destroy = false,
 	}
 	
-	self.Retain(self, PropertyTable)
+	PropertyTable.Destroy = self.Retain(self, PropertyTable)
 	
 	return PropertyTable
 end

@@ -594,7 +594,8 @@ function Ceive.Init()
 			end
 		end
 
-		for i, DebrisObject in Debris do
+		for i = #Debris, 1, -1 do
+			local DebrisObject = Debris[i]
 			local DebrisType = DebrisObject[1]
 			local DebrisLifetime = DebrisObject[2]
 			local DebrisBirth = DebrisObject[3]
@@ -621,7 +622,8 @@ function Ceive.Init()
 			DebrisCallback()
 		end
 
-		for i, Gizmo in RetainObjects do
+		for i = #RetainObjects, 1, -1 do
+			local Gizmo = RetainObjects[i]
 			local GizmoPropertys = Gizmo[2]
 
 			if not GizmoPropertys.Enabled then

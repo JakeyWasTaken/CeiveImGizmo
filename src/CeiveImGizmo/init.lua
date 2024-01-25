@@ -61,12 +61,13 @@ end
 local function Request(ClassName)
 	if not Pool[ClassName] then
 		return Instance.new(ClassName)
-	elseif not Pool[ClassName][1] then
-		return Instance.new(ClassName)
 	end
 
-	local Object = Pool[ClassName][1]
-	table.remove(Pool[ClassName], 1)
+	local Object = table.remove(Pool[ClassName])
+
+	if not Object then
+		return Instance.new(ClassName)
+	end
 
 	return Object
 end

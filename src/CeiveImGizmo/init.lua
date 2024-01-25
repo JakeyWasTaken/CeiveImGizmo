@@ -545,24 +545,24 @@ function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): 
 	local p_Properties = Properties
 	local c_Properties = deepCopy(Properties)
 
-	table.insert(Tweens, {
+	local Tween = {
 		p_Properties = p_Properties,
 		Properties = c_Properties,
 		Goal = Goal,
 		TweenInfo = TweenInfo,
 		Time = 0,
-	})
+	}
 
-	local TweenIndex = #Tweens
+	Tweens[Tween] = true
 
 	return function()
-		table.remove(Tweens, TweenIndex)
+		Tweens[Tween] = nil
 	end
 end
 
 function Ceive.Init()
 	RunService.RenderStepped:Connect(function(dt)
-		for i, Tween in Tweens do
+		for Tween in Tweens do
 			Tween.Time += dt
 			local Alpha = Tween.Time / Tween.TweenInfo.Time
 
@@ -590,7 +590,7 @@ function Ceive.Init()
 			end
 
 			if Alpha == 1 then
-				table.remove(Tweens, i)
+				Tweens[Tween] = nil
 			end
 		end
 

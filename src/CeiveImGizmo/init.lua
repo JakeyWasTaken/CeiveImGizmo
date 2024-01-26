@@ -66,12 +66,13 @@ end
 local function Request(ClassName)
 	if not Pool[ClassName] then
 		return Instance.new(ClassName)
-	elseif not Pool[ClassName][1] then
-		return Instance.new(ClassName)
 	end
 
-	local Object = Pool[ClassName][1]
-	table.remove(Pool[ClassName], 1)
+	local Object = table.remove(Pool[ClassName])
+
+	if not Object then
+		return Instance.new(ClassName)
+	end
 
 	return Object
 end
@@ -592,18 +593,18 @@ function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): 
 	local p_Properties = Properties
 	local c_Properties = deepCopy(Properties)
 
-	table.insert(Tweens, {
+	local Tween = {
 		p_Properties = p_Properties,
 		Properties = c_Properties,
 		Goal = Goal,
 		TweenInfo = TweenInfo,
 		Time = 0,
-	})
+	}
 
-	local TweenIndex = #Tweens
+	Tweens[Tween] = true
 
 	return function()
-		table.remove(Tweens, TweenIndex)
+		Tweens[Tween] = nil
 	end
 end
 
@@ -611,7 +612,7 @@ end
 --- @function Init
 function Ceive.Init()
 	RunService.RenderStepped:Connect(function(dt)
-		if Ceive.Enabled then
+     if Ceive.Enabled then
 			-- Add our gizmos if they were removed for whatever reasons
 			if not TargetParent:FindFirstChild("AOTGizmoAdornment") then
 				AOTWireframeHandle = Instance.new("WireframeHandleAdornment")
@@ -636,7 +637,7 @@ function Ceive.Init()
 			end
 		end
 
-		for i, Tween in Tweens do
+		for Tween in Tweens do
 			Tween.Time += dt
 			local Alpha = Tween.Time / Tween.TweenInfo.Time
 
@@ -664,11 +665,12 @@ function Ceive.Init()
 			end
 
 			if Alpha == 1 then
-				table.remove(Tweens, i)
+				Tweens[Tween] = nil
 			end
 		end
 
-		for i, DebrisObject in Debris do
+		for i = #Debris, 1, -1 do
+			local DebrisObject = Debris[i]
 			local DebrisType = DebrisObject[1]
 			local DebrisLifetime = DebrisObject[2]
 			local DebrisBirth = DebrisObject[3]
@@ -695,7 +697,8 @@ function Ceive.Init()
 			DebrisCallback()
 		end
 
-		for i, Gizmo in RetainObjects do
+		for i = #RetainObjects, 1, -1 do
+			local Gizmo = RetainObjects[i]
 			local GizmoPropertys = Gizmo[2]
 
 			if not GizmoPropertys.Enabled then

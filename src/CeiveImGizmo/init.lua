@@ -5,10 +5,14 @@
 
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
-local Terrain = workspace.Terrain
+local Terrain = workspace:WaitForChild("Terrain")
+local TargetParent = workspace:FindFirstChild("Terrain") -- Change this if you wish to have gizmos under a different location, e.g CoreGui
 
-local AOTWireframeHandle: WireframeHandleAdornment = Terrain:FindFirstChild("AOTGizmoAdornment")
-local WireframeHandle: WireframeHandleAdornment = Terrain:FindFirstChild("GizmoAdornment")
+assert(Terrain, "No terrain object found under workspace")
+assert(TargetParent, "No target parent found.")
+
+local AOTWireframeHandle: WireframeHandleAdornment = TargetParent:FindFirstChild("AOTGizmoAdornment")
+local WireframeHandle: WireframeHandleAdornment = TargetParent:FindFirstChild("GizmoAdornment")
 
 if not AOTWireframeHandle then
 	AOTWireframeHandle = Instance.new("WireframeHandleAdornment")
@@ -16,7 +20,7 @@ if not AOTWireframeHandle then
 	AOTWireframeHandle.ZIndex = 1
 	AOTWireframeHandle.AlwaysOnTop = true
 	AOTWireframeHandle.Name = "AOTGizmoAdornment"
-	AOTWireframeHandle.Parent = Terrain
+	AOTWireframeHandle.Parent = TargetParent
 end
 
 if not WireframeHandle then
@@ -25,7 +29,7 @@ if not WireframeHandle then
 	WireframeHandle.ZIndex = 1
 	WireframeHandle.AlwaysOnTop = false
 	WireframeHandle.Name = "GizmoAdornment"
-	WireframeHandle.Parent = Terrain
+	WireframeHandle.Parent = TargetParent
 end
 
 local Gizmos = script:WaitForChild("Gizmos")
@@ -44,6 +48,7 @@ local function Retain(Gizmo, GizmoProperties)
 end
 
 local function Register(object)
+	object.Parent = TargetParent
 	table.insert(ActiveObjects, object)
 end
 
@@ -443,6 +448,9 @@ type ICeive = {
 
 -- Ceive
 
+--- @class CEIVE
+--- Root class for all the gizmos.
+
 local Styles = {
 	Color = "Color3",
 	Transparency = "Transparency",
@@ -460,6 +468,9 @@ local Ceive: ICeive = {
 	WireframeHandle = WireframeHandle,
 }
 
+--- @within CEIVE
+--- @function GetPoolSize
+--- @return number
 function Ceive.GetPoolSize(): number
 	local n = 0
 
@@ -470,6 +481,11 @@ function Ceive.GetPoolSize(): number
 	return n
 end
 
+--- @within CEIVE
+--- @function PushProperty
+--- Push Property sets the value of a property.
+--- @param Property string
+--- @param Value any
 function Ceive.PushProperty(Property, Value)
 	PropertyTable[Property] = Value
 
@@ -483,6 +499,11 @@ function Ceive.PushProperty(Property, Value)
 	end)
 end
 
+--- @within CEIVE
+--- @function PopProperty
+--- Pop Property returns the property value.
+--- @param Property string
+--- @return any
 function Ceive.PopProperty(Property): any
 	if PropertyTable[Property] then
 		return PropertyTable[Property]
@@ -491,20 +512,28 @@ function Ceive.PopProperty(Property): any
 	return AOTWireframeHandle[Property]
 end
 
+--- @within CEIVE
+--- @function SetStyle
+--- Sets the style of all properties.
+--- @param Color Color3?
+--- @param Transparency number?
+--- @param AlwaysOnTop boolean?
 function Ceive.SetStyle(Color, Transparency, AlwaysOnTop)
-	if Color and typeof(Color) == "Color3" then
+	if Color ~= nil and typeof(Color) == "Color3" then
 		Ceive.PushProperty("Color3", Color)
 	end
 
-	if Transparency and typeof(Transparency) == "number" then
+	if Transparency ~= nil and typeof(Transparency) == "number" then
 		Ceive.PushProperty("Transparency", Transparency)
 	end
 
-	if AlwaysOnTop and typeof(AlwaysOnTop) == "boolean" then
+	if AlwaysOnTop ~= nil and typeof(AlwaysOnTop) == "boolean" then
 		Ceive.PushProperty("AlwaysOnTop", AlwaysOnTop)
 	end
 end
 
+--- @within CEIVE
+--- @function DoCleaning
 function Ceive.DoCleaning()
 	AOTWireframeHandle:Clear()
 	WireframeHandle:Clear()
@@ -519,6 +548,8 @@ function Ceive.DoCleaning()
 	Ceive.ActiveInstances = 0
 end
 
+--- @within CEIVE
+--- @function ScheduleCleaning
 function Ceive.ScheduleCleaning()
 	if CleanerScheduled then
 		return
@@ -533,14 +564,31 @@ function Ceive.ScheduleCleaning()
 	end)
 end
 
+--- @within CEIVE
+--- @function AddDebrisInSeconds
+--- Acts as a wrapper for your code that runs for a provided amount of seconds.
+--- @param Seconds number
+--- @param Callback function
 function Ceive.AddDebrisInSeconds(Seconds: number, Callback)
 	table.insert(Debris, { "Seconds", Seconds, os.clock(), Callback })
 end
 
+--- @within CEIVE
+--- @function AddDebrisInFrames
+--- Acts as a wrapper for your code that runs for a provided amount of frames.
+--- @param Frames number
+--- @param Callback function
 function Ceive.AddDebrisInFrames(Frames: number, Callback)
 	table.insert(Debris, { "Frames", Frames, 0, Callback })
 end
 
+--- @within CEIVE
+--- @function TweenProperties
+--- Tweens the property table to the goal with the provided TweenInfo, returns a function which can be used to cancel.
+--- @param Properties table
+--- @param Goal table
+--- @param TweenInfo TweenInfo
+--- @return CancelFunction
 function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): () -> ()
 	local p_Properties = Properties
 	local c_Properties = deepCopy(Properties)
@@ -560,8 +608,35 @@ function Ceive.TweenProperties(Properties: {}, Goal: {}, TweenInfo: TweenInfo): 
 	end
 end
 
+--- @within CEIVE
+--- @function Init
 function Ceive.Init()
 	RunService.RenderStepped:Connect(function(dt)
+     if Ceive.Enabled then
+			-- Add our gizmos if they were removed for whatever reasons
+			if not TargetParent:FindFirstChild("AOTGizmoAdornment") then
+				AOTWireframeHandle = Instance.new("WireframeHandleAdornment")
+				AOTWireframeHandle.Adornee = Terrain
+				AOTWireframeHandle.ZIndex = 1
+				AOTWireframeHandle.AlwaysOnTop = true
+				AOTWireframeHandle.Name = "AOTGizmoAdornment"
+				AOTWireframeHandle.Parent = TargetParent
+
+				Ceive.AOTWireframeHandle = AOTWireframeHandle
+			end
+
+			if not TargetParent:FindFirstChild("GizmoAdornment") then
+				WireframeHandle = Instance.new("WireframeHandleAdornment")
+				WireframeHandle.Adornee = Terrain
+				WireframeHandle.ZIndex = 1
+				WireframeHandle.AlwaysOnTop = false
+				WireframeHandle.Name = "GizmoAdornment"
+				WireframeHandle.Parent = TargetParent
+
+				Ceive.WireframeHandle = WireframeHandle
+			end
+		end
+
 		for Tween in Tweens do
 			Tween.Time += dt
 			local Alpha = Tween.Time / Tween.TweenInfo.Time
@@ -639,11 +714,27 @@ function Ceive.Init()
 	end)
 end
 
+--- @within CEIVE
+--- @function SetEnabled
+--- @param Value boolean
 function Ceive.SetEnabled(Value)
 	Ceive.Enabled = Value
 
 	if Value == false then
 		Ceive.DoCleaning()
+	end
+end
+
+--- @within CEIVE
+--- @function RemoveAdornments
+--- Removes adornments, will be added back next frame if Ceive is enabled
+function Ceive.RemoveAdornments()
+	if TargetParent:FindFirstChild("AOTGizmoAdornment") then
+		TargetParent:FindFirstChild("AOTGizmoAdornment"):Destroy()
+	end
+
+	if TargetParent:FindFirstChild("GizmoAdornment") then
+		TargetParent:FindFirstChild("GizmoAdornment"):Destroy()
 	end
 end
 

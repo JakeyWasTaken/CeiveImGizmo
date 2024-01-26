@@ -420,6 +420,7 @@ type ICeive = {
 	AddDebrisInSeconds: (Seconds: number, Callback: () -> ()) -> (),
 	AddDebrisInFrames: (Frames: number, Callback: () -> ()) -> (),
 	SetEnabled: (Value: boolean) -> (),
+	RemoveAdornments: () -> (),
 	DoCleaning: () -> (),
 	ScheduleCleaning: () -> (),
 	TweenProperies: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),

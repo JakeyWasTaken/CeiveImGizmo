@@ -612,7 +612,7 @@ end
 --- @function Init
 function Ceive.Init()
 	RunService.RenderStepped:Connect(function(dt)
-     if Ceive.Enabled then
+    	if Ceive.Enabled then
 			-- Add our gizmos if they were removed for whatever reasons
 			if not TargetParent:FindFirstChild("AOTGizmoAdornment") then
 				AOTWireframeHandle = Instance.new("WireframeHandleAdornment")

@@ -44,7 +44,6 @@ end
 --- @param Length number
 --- @param Subdivisions number
 --- @return {Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number, Color3: Color3, AlwaysOnTop: boolean, Transparency: number, Enabled: boolean, Destroy: boolean}
-
 function Gizmo:Create(Origin: Vector3, End: Vector3, Radius: number, Length: number, Subdivisions: number)
 	local PropertyTable = {
 		Origin = Origin,

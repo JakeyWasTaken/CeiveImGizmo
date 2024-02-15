@@ -38,7 +38,7 @@ local ActiveObjects = {}
 local RetainObjects = {}
 local Debris = {}
 local Tweens = {}
-local PropertyTable = { AlwaysOnTop = true }
+local PropertyTable = { AlwaysOnTop = true, Color3 = Color3.fromRGB(13, 105, 172), Transparency = 0 }
 local Pool = {}
 
 local CleanerScheduled = false
@@ -410,12 +410,14 @@ type IStyles = {
 	AlwaysOnTop: boolean,
 }
 
+type IStyle = "Color3" | "Transparency" | "AlwaysOnTop"
+
 type ICeive = {
 	ActiveRays: number,
 	ActiveInstances: number,
 
-	PushProperty: (Property: string, Value: any?) -> (),
-	PopProperty: (Property: string) -> any?,
+	PushProperty: (Property: IStyle, Value: any?) -> (),
+	PopProperty: (Property: IStyle) -> any?,
 	SetStyle: (Color: Color3?, Transparency: number?, AlwaysOnTop: boolean?) -> (),
 	AddDebrisInSeconds: (Seconds: number, Callback: () -> ()) -> (),
 	AddDebrisInFrames: (Frames: number, Callback: () -> ()) -> (),
@@ -505,7 +507,7 @@ end
 --- Pop Property returns the property value.
 --- @param Property string
 --- @return any
-function Ceive.PopProperty(Property): any
+function Ceive.PopProperty(Property)
 	if PropertyTable[Property] then
 		return PropertyTable[Property]
 	end

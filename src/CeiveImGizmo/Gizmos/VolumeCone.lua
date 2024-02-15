@@ -32,7 +32,7 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number)
 
 	local Cone = self.Request("ConeHandleAdornment")
 	Cone.Color3 = self.Propertys.Color3
-	Cone.Transparency = self.Propertys.Color3
+	Cone.Transparency = self.Propertys.Transparency
 
 	Cone.CFrame = Transform
 	Cone.AlwaysOnTop = self.Propertys.AlwaysOnTop
@@ -41,9 +41,9 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number)
 	Cone.Radius = Radius
 	Cone.Adornee = Terrain
 	Cone.Parent = Terrain
-	
+
 	Ceive.ActiveInstances += 1
-	
+
 	self.Register(Cone)
 end
 

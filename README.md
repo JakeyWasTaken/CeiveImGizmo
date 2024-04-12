@@ -10,6 +10,8 @@ Ceive was made in mind for both performance, immedate mode and retained mode, af
 The demo place can be found here: https://www.roblox.com/games/13812842210/Gizmos-Demo<br />
 And the rbxm + rbxl files can be found in the releases.
 
+You can also install from [wally](https://wally.run/package/jakeywastaken/imgizmo) via `imgizmo = "jakeywastaken/imgizmo@^3.5.0"`
+
 # Shapes
 
 Boxes with or without triangles<br />

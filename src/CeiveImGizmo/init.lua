@@ -6,7 +6,7 @@
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local Terrain = workspace:WaitForChild("Terrain")
-local TargetParent = workspace:FindFirstChild("Terrain") -- Change this if you wish to have gizmos under a different location, e.g CoreGui
+local TargetParent = workspace:WaitForChild("Terrain") -- Change this if you wish to have gizmos under a different location, e.g CoreGui
 
 assert(Terrain, "No terrain object found under workspace")
 assert(TargetParent, "No target parent found.")
@@ -38,7 +38,7 @@ local ActiveObjects = {}
 local RetainObjects = {}
 local Debris = {}
 local Tweens = {}
-local PropertyTable = { AlwaysOnTop = true, Color3 = Color3.fromRGB(13, 105, 172), Transparency = 0 }
+local PropertyTable = { AlwaysOnTop = true, Color3 = Color3.fromRGB(13, 105, 172), Transparency = 0 } -- Defaults
 local Pool = {}
 
 local CleanerScheduled = false
@@ -404,6 +404,25 @@ type IVolumeArrow = {
 	},
 }
 
+type IText = {
+	Draw: (self: IText, Origin: Vector3, Text: string, Size: number?) -> (),
+	Create: (
+		self: IText,
+		Origin: Vector3,
+		Text: string,
+		Size: number?
+	) -> {
+		Origin: Vector3,
+		Text: string,
+		Size: number?,
+		Color3: Color3,
+		AlwaysOnTop: boolean,
+		Transparency: number,
+		Enabled: boolean,
+		Destroy: boolean,
+	},
+}
+
 type IStyles = {
 	Color: string,
 	Transparency: number,
@@ -442,6 +461,7 @@ type ICeive = {
 	Cone: ICone,
 	Arrow: IArrow,
 	Mesh: IMesh,
+	Text: IText,
 	VolumeCone: IVolumeCone,
 	VolumeBox: IVolumeBox,
 	VolumeSphere: IVolumeSphere,

@@ -45,6 +45,7 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number)
 	Ceive.ActiveInstances += 1
 
 	self.Register(Cone)
+	self.Ceive.ScheduleCleaning()
 end
 
 --- @within VolumeCone

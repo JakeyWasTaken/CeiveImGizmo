@@ -49,6 +49,7 @@ function Gizmo:Draw(Transform: CFrame, Radius: number, Length: number, InnerRadi
 	Ceive.ActiveInstances += 1
 
 	self.Register(Cylinder)
+	self.Ceive.ScheduleCleaning()
 end
 
 --- @within VolumeCylinder

@@ -43,6 +43,7 @@ function Gizmo:Draw(Transform: CFrame, Size: Vector3)
 	Ceive.ActiveInstances += 1
 
 	self.Register(Box)
+	self.Ceive.ScheduleCleaning()
 end
 
 --- @within VolumeBox

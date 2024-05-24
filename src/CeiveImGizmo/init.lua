@@ -162,12 +162,13 @@ type IWedge = {
 }
 
 type ICircle = {
-	Draw: (self: ICircle, Transform: CFrame, Radius: number, Subdivisions: number, ConnectToStart: boolean?) -> (),
+	Draw: (self: ICircle, Transform: CFrame, Radius: number, Subdivisions: number, Angle: number, ConnectToStart: boolean?) -> (),
 	Create: (
 		self: ICircle,
 		Transform: CFrame,
 		Radius: number,
 		Subdivisions: number,
+		Angle: number,
 		ConnectToStart: boolean?
 	) -> {
 		Transform: CFrame,

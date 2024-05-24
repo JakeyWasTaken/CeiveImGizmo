@@ -1,5 +1,8 @@
---- @class Text
---- Renders text at a position with a size in pixels.
+local DROP_SHADOW = true
+local OFFSET_PERCENTAGE = 0.00175
+
+local Camera = workspace.CurrentCamera
+
 local Gizmo = {}
 Gizmo.__index = Gizmo
 
@@ -15,11 +18,6 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain)
 	return self
 end
 
---- @within Text
---- @function Draw
---- @param Origin Vector3
---- @param Text string
---- @param Size number?
 function Gizmo:Draw(Origin: Vector3, Text: string, Size: number?)
 	local Ceive = self.Ceive
 
@@ -28,23 +26,37 @@ function Gizmo:Draw(Origin: Vector3, Text: string, Size: number?)
 	end
 
 	if self.Propertys.AlwaysOnTop then
+		if DROP_SHADOW then
+			local DistanceToCamera = (Origin - Camera.CFrame.Position).Magnitude
+			local PrevColor = Ceive.PopProperty("Color3")
+
+			Ceive.PushProperty("Color3", Color3.new())
+			local Offset = -(Vector3.xAxis + Vector3.yAxis).Unit
+			Ceive.AOTWireframeHandle:AddText(Origin + Offset * (DistanceToCamera * OFFSET_PERCENTAGE), Text, Size)
+			Ceive.PushProperty("Color3", PrevColor)
+		end
+
 		Ceive.AOTWireframeHandle:AddText(Origin, Text, Size)
 	else
+		if DROP_SHADOW then
+			local DistanceToCamera = (Origin - Camera.CFrame.Position).Magnitude
+			local PrevColor = Ceive.PopProperty("Color3")
+
+			Ceive.PushProperty("Color3", Color3.new())
+			local Offset = -(Vector3.xAxis + Vector3.yAxis).Unit
+			Ceive.WireframeHandle:AddText(Origin + Offset * (DistanceToCamera * OFFSET_PERCENTAGE), Text, Size)
+			Ceive.PushProperty("Color3", PrevColor)
+		end
+
 		Ceive.WireframeHandle:AddText(Origin, Text, Size)
 	end
 
-    -- Should text count to active rays?
+	-- Should text count to active rays?
 	--self.Ceive.ActiveRays += 1
 
 	self.Ceive.ScheduleCleaning()
 end
 
---- @within Text
---- @function Create
---- @param Origin Vector3
---- @param Text string
---- @param Size number?
---- @return {Origin: Vector3, Text: string, Size: number?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
 function Gizmo:Create(Origin: Vector3, Text: string, Size: number?)
 	local PropertyTable = {
 		Origin = Origin,

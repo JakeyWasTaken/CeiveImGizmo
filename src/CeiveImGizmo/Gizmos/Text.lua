@@ -1,3 +1,5 @@
+--- @class Text
+--- Renders text at a position with a size in pixels.
 local DROP_SHADOW = true
 local OFFSET_PERCENTAGE = 0.00175
 
@@ -18,6 +20,11 @@ function Gizmo.Init(Ceive, Propertys, Request, Release, Retain)
 	return self
 end
 
+--- @within Text
+--- @function Draw
+--- @param Origin Vector3
+--- @param Text string
+--- @param Size number?
 function Gizmo:Draw(Origin: Vector3, Text: string, Size: number?)
 	local Ceive = self.Ceive
 
@@ -57,6 +64,12 @@ function Gizmo:Draw(Origin: Vector3, Text: string, Size: number?)
 	self.Ceive.ScheduleCleaning()
 end
 
+--- @within Text
+--- @function Create
+--- @param Origin Vector3
+--- @param Text string
+--- @param Size number?
+--- @return {Origin: Vector3, Text: string, Size: number?, Color3: Color3, AlwaysOnTop: boolean, Transparency: number}
 function Gizmo:Create(Origin: Vector3, Text: string, Size: number?)
 	local PropertyTable = {
 		Origin = Origin,

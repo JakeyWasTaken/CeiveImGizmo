@@ -424,6 +424,45 @@ type IText = {
 	},
 }
 
+type ICFrame = {
+	Draw: (self: ICFrame, Transform: CFrame, Scale: number) -> (),
+	Create: (
+		self: ICFrame,
+		Transform: CFrame,
+		Scale: number
+	) -> {
+		Transform: CFrame,
+		Scale: number,
+		AlwaysOnTop: boolean,
+		Transparency: number,
+		Enabled: boolean,
+		Destroy: boolean
+	}
+}
+
+type IRoundedFrustum = {
+	Draw: (self: IRoundedFrustum, Transform: CFrame, Radius0: number, Radius1: number, Length: number, Subdivisions: number) -> (),
+	Create: (
+		self: IRoundedFrustum,
+		Transform: CFrame,
+		Radius0: number,
+		Radius1: number,
+		Length: number,
+		Subdivisions: number
+	) -> {
+		Transform: CFrame,
+		Radius0: number,
+		Radius1: number,
+		Length: number,
+		Subdivisions: number,
+		Color3: Color3,
+		AlwaysOnTop: boolean,
+		Transparency: number,
+		Enabled: boolean,
+		Destroy: boolean
+	}
+}
+
 type IStyles = {
 	Color: string,
 	Transparency: number,
@@ -463,6 +502,8 @@ type ICeive = {
 	Arrow: IArrow,
 	Mesh: IMesh,
 	Text: IText,
+	CFrame: ICFrame,
+	RoundedFrustum: IRoundedFrustum,
 	VolumeCone: IVolumeCone,
 	VolumeBox: IVolumeBox,
 	VolumeSphere: IVolumeSphere,

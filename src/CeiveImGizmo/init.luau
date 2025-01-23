@@ -484,7 +484,7 @@ type ICeive = {
 	RemoveAdornments: () -> (),
 	DoCleaning: () -> (),
 	ScheduleCleaning: () -> (),
-	TweenProperies: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),
+	TweenProperties: (Properties: {}, Goal: {}, TweenInfo: TweenInfo) -> () -> (),
 	Init: () -> (),
 
 	Styles: IStyles,
